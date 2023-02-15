@@ -1,0 +1,38 @@
+.cal_calendar table {
+        /*border-top:1px solid #000000;
+		border-left:1px solid #000000;*/
+        padding:1px;
+        /*background-color:#4594ff;*/
+        width:100%;
+        /*margin:auto;*/
+        height:246px;
+}
+.cal_calendar th {
+        border-bottom:1px solid #000000;
+		border-top:1px solid #000000;
+		border-right:1px solid #000000;
+        background-color:#ffffff;
+        width:36px;
+}
+.cal_calendar th:first-child {
+        border-left:1px solid #000000;
+}
+.cal_calendar td {
+        border-bottom:1px solid #000000;
+		border-right:1px solid #000000;
+        background-color:#ffffff;
+        text-align:center;
+                width:36px;
+                height:36px;	
+}
+.cal_calendar td:first-child {
+        border-left:1px solid #000000;
+}
+.cal_today {
+        color:#ff0000;
+        font-weight:bold;
+}
+.cal_days_bef_aft
+{
+        color:#5a779e;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+      "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+      "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+      
+<hibernate-configuration>
+
+	<!-- http://ec2-52-220-61-1.ap-southeast-1.compute.amazonaws.com:8080 -->
+
+	<!-- 172.16.11.11 -->
+
+	<session-factory>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+	    <property name="hibernate.connection.datasource">java:/comp/env/jdbc/postgresDSPortal</property>  
+
+        <!-- Assume test is the database name -->
+
+        <!--property name = "hibernate.connection.url">jdbc:postgresql://172.16.11.12:5432/pipl_cgr_prodbak?currentSchema=pipl_cgr_portal</property-->
+        <!--property name = "hibernate.connection.url">jdbc:postgresql://epanjeeyan.cg.gov.in:5432/pipl_cgr_prodbak?currentSchema=pipl_cgr_portal</property-->
+        <!--property name = "hibernate.connection.url">jdbc:postgresql://localhost:5432/pipl_cgr_prodbak?currentSchema=pipl_cgr_portal</property>
+        <property name = "hibernate.connection.username">pipl_cgr_user</property>
+        <property name = "hibernate.connection.password">pipl_cgr_pass</property-->
+
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="hibernate.jdbc.batch_size">30</property>
+		
+
+		<!--  <property name="show_sql">true</property>  -->
+
+		<mapping class="com.igr.hibernate.model.echalanVerificationModel" />
+		<mapping class="com.igr.hibernate.model.lrTransactionDetailModel" />
+        <mapping class="com.igr.hibernate.model.areaMasterObjectionalModel" />
+        <mapping class="com.igr.hibernate.model.areaMasterLitigatedModel" />
+		<mapping class="com.igr.hibernate.model.provisionalTokenTypeModel" />
+		<mapping class="com.igr.hibernate.model.deedTypeModel" />
+		<mapping class="com.igr.hibernate.model.partyTypeModel" />
+		<mapping class="com.igr.hibernate.model.deedCategoryModel" />
+		<mapping class="com.igr.hibernate.model.secondTokenTypeModel" />
+		<mapping class="com.igr.hibernate.model.deedDetailModel" />
+		<mapping class="com.igr.hibernate.model.propertyTypeModel" />
+		<mapping class="com.igr.hibernate.model.areaMasterModel" />
+		<mapping class="com.igr.hibernate.model.locationMasterModel" />
+		<mapping class="com.igr.hibernate.model.partyDetailModel" />
+		<mapping class="com.igr.hibernate.model.propertyDetailModel" />
+		<mapping class="com.igr.hibernate.model.structureValuationModel" />
+		<mapping class="com.igr.hibernate.model.globalConfigModel" />
+		<mapping class="com.igr.hibernate.model.propertyStructureMasterModel" />
+		<mapping class="com.igr.hibernate.model.UserCreateModel" />
+		<mapping class="com.igr.hibernate.model.districtMasterModel" />
+		<mapping class="com.igr.hibernate.model.estampDetailModel" />
+		<mapping class="com.igr.hibernate.model.estampVerificationModel" />
+		<mapping class="com.igr.hibernate.model.newsModel" />
+		<mapping class="com.igr.hibernate.model.noticeModel" />
+		<mapping class="com.igr.hibernate.model.disputedLandModel" />
+		<mapping class="com.igr.hibernate.model.feeStructureModel" />
+		<mapping class="com.igr.hibernate.model.PaymentModel" />
+		<mapping class="com.igr.hibernate.model.userLogModel" />
+		<mapping class="com.igr.hibernate.model.feedBackModel" />
+		<mapping class="com.igr.hibernate.model.feeCollectionPortalModel" />
+		<mapping class="com.igr.hibernate.model.eChallanRequestModel" />
+		<mapping class="com.igr.hibernate.model.eChallanResponseModel" />
+		<mapping class="com.igr.hibernate.model.sbiePayRequestModel" />
+		<mapping class="com.igr.hibernate.model.sbiePayResponseModel" />
+		<mapping class="com.igr.hibernate.model.appointmentModel" />
+		<mapping class="com.igr.hibernate.model.appointmentPartyModel" />
+		<mapping class="com.igr.hibernate.model.appointmentDsrListModel" />
+		<mapping class="com.igr.hibernate.model.appointmentOTPModel" />
+		<mapping class="com.igr.hibernate.model.tempDeedTypeModel" />
+		<mapping class="com.igr.hibernate.model.appointmentEStampModel" />
+		<mapping class="com.igr.hibernate.model.districtMasterAppointmentModel" />
+		<!-- <mapping class="com.igr.hibernate.model.appointmentOfficeCategory" />
+		<mapping class="com.igr.hibernate.model.appointmentWorkingDay" /> -->
+
+	</session-factory>
+</hibernate-configuration>

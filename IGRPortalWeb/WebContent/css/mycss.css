@@ -1,0 +1,85 @@
+.col-md-12{
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+	.col-md-12 {
+    float: left;
+  }
+}
+ol.regprocess-list {
+    list-style-type: none;
+    list-style-type: decimal !ie; /*IE 7- hack*/
+     
+    margin: 0;
+    margin-left: 1em;
+    padding: 0;
+     
+    counter-reset: li-counter;
+}
+ol.regprocess-list > li{
+    position: relative;
+    margin-bottom: 1.5em;
+    padding: 1.5em;
+    background-color: #eaeaea;
+}
+ol.regprocess-list > li:before {
+    position: absolute;
+    top: -0.3em;
+    left: -0.5em;
+    width: 1.8em;
+    height: 1.2em;
+     
+    font-size: 2em;
+    line-height: 1.2;
+    font-weight: bold;
+    text-align: center;
+    color: #464646;
+    background-color: #d0d0d0;
+     
+    transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg);
+    z-index: 99;
+    overflow: hidden;
+     
+    content: counter(li-counter);
+    counter-increment: li-counter;
+}
+
+.row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.row:before, .row:after {
+  content: " ";
+  display: table;
+}
+.row:after {
+  clear: both;
+}
+
+table.download-form-table td {
+	padding:8px 0;
+	vertical-align:middle;
+}
+
+.amount_show{
+	font-family: "Book Antiqua";
+	font-size: 27px;
+	color: #000;
+	vertical-align: middle;
+}
+
+/* #min_val_col{
+	font-family: "Book Antiqua";
+	font-size: 36px;
+	color: #000;
+}
+ */
+

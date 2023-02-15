@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="global" />
+	<constant name="struts.multipart.maxSize" value="30720000" />
+	<constant name="struts.action.excludePattern" value="/servlet/DownloadServlet" />
+
+	<package name="default"
+		extends="struts-default,json-default,jasperreports-default" namespace="/">
+
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+			<result-type name="jasper"
+				class="org.apache.struts2.views.jasperreports.JasperReportsResult" />
+		</result-types>
+
+		<interceptors>
+			<interceptor class="com.igr.commonUtility.HttpHeaderInterceptor"
+				name="headerSetter">
+			</interceptor>
+			
+			<interceptor class="com.igr.commonUtility.LogInterceptor"
+				name="loginInterceptor">
+			</interceptor>
+			
+			<interceptor class="com.igr.commonUtility.EncryptInterceptor"
+				name="encryptInterceptor">
+			</interceptor>
+			
+			<interceptor name="IGRFilter" class="com.igr.commonUtility.IGRFilter">
+				<param name="hello">Hello world</param>
+			</interceptor>
+			
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="IGRFilter"></interceptor-ref>
+			</interceptor-stack>
+			
+		</interceptors>
+
+		<global-results>
+			<result name="error">/commonJsp/errorPage.jsp</result>
+			<result name="login" type="redirectAction">loginFormAction</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
+
+		<!-- login action -->
+		<action name="LoginAction" class="com.igr.commonUtility.LoginAction"
+			method="login">
+			
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+			<result name="success" type="redirect">homeAction</result>
+			<result name="login">/commonJsp/login.jsp</result>
+		</action>
+		
+		<!-- Signup Action -->
+		<action name="SignupAction" class="com.igr.commonUtility.SignupAction"
+			method="signup">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+			<result name="success">/commonJsp/preregistration.jsp</result>
+			<result name="login">/commonJsp/preregistration.jsp</result>
+			<result name="error">/commonJsp/preregistration.jsp</result>
+			<result name="input">/commonJsp/preregistration.jsp</result>
+		</action>
+		
+		<action name="DashBoardAction" class="com.igr.registration.DashBoardAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+			<result name="success">DashBoardJsp.jsp</result>
+			<result name="input">DashBoardJsp.jsp</result>
+		</action>
+		
+		<!-- home link action -->
+		<action name="homeAction" class="com.igr.commonUtility.LoginAction"
+			method="home">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack" />
+			
+			<result name="login">/commonJsp/login.jsp</result>
+			<result name="success">/commonJsp/main.jsp</result>
+		</action>
+
+		<!-- logout action -->
+		<action name="logOut" class="com.igr.commonUtility.LoginAction"
+			method="logOut">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+			<result>/commonJsp/login.jsp</result>
+		</action>
+
+		<!-- START SECOND TOKEN ENTRY -->
+		<action name="IssueSecondTokenAction" class="com.igr.registration.IssueSecondTokenAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">addSecondToken</param>
+			</interceptor-ref>
+			
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/IssueSecondToken.jsp</result>
+			<result name="input">registrationJsp/IssueSecondToken.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/IssueSecondToken.jsp</result>
+		</action>
+
+		<action name="loadStampNoValue" class="com.igr.registration.IssueSecondTokenAction"
+			method="loadStampNoValue">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			<result name="success" type="json">
+				<param name="stamp_pages_no" />
+			</result>
+		</action>
+
+		<action name="loadDSRLocation" class="com.igr.registration.IssueSecondTokenAction"
+			method="loadDSRLocation">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			<result name="success" type="json">
+				<param name="district_id" />
+				<param name="language" />
+			</result>
+		</action>
+		
+		<action name="loadCategory" class="com.igr.registration.IssueSecondTokenAction"
+			method="loadCategory">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="deed_type_id" />
+				<param name="language" />
+			</result>
+		</action>
+
+		<action name="addSecondToken" class="com.igr.registration.IssueSecondTokenAction"
+			method="addSecondToken">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success">registrationJsp/IssueSecondToken.jsp</result>
+			<result name="input">registrationJsp/IssueSecondToken.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitSecondToken" class="com.igr.registration.IssueSecondTokenAction"
+			method="exitSecondToken">
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END SECOND TOKEN ENTRY -->
+
+
+		<!-- START SEARCH SECOND TOKEN FOR DEED ENTRY -->
+		<action name="SearchSecondTokenforPropertyEntry"
+			class="com.igr.commonSearch.SearchSecondTokenforPropertyEntry">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			 
+			<result name="success">commonSearch/SearchSecondTokenForPropertyEntry.jsp
+			</result>
+			<result name="input">commonSearch/SearchSecondTokenForPropertyEntry.jsp
+			</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<action name="exitSecondToken"
+			class="com.igr.commonSearch.SearchSecondTokenforPropertyEntry"
+			method="exitSecondToken">
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END SEARCH SECOND TOKEN FOR DEED ENTRY -->
+
+		<!-- START DEED ENTRY -->
+		<action name="DeedDetailEntryAction" class="com.igr.registration.DeedDetailEntryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">addDeedDetail</param>
+			</interceptor-ref>
+			 
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/DeedDetailEntry.jsp</result>
+			<result name="input">registrationJsp/DeedDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/DeedDetailEntry.jsp</result>
+		</action>
+
+		<action name="addDeedDetail" class="com.igr.registration.DeedDetailEntryAction"
+			method="addDeedDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success">registrationJsp/DeedDetailEntry.jsp</result>
+			<result name="input">registrationJsp/DeedDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitDeedDetail" class="com.igr.registration.DeedDetailEntryAction"
+			method="exitDeedDetail">
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END DEED ENTRY -->
+
+		<!-- Date Edit -->
+		<action name="DateEditAction" class="com.igr.registration.DateEditAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">updateAppDate</param>
+			</interceptor-ref>
+			
+			 
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/DateEdit.jsp</result>
+			<result name="input">registrationJsp/DateEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/DateEdit.jsp</result>
+			<!-- <result name="error">registrationJsp/DateEdit.jsp</result> -->
+		</action>
+
+		<action name="updateAppDate" class="com.igr.registration.DateEditAction"
+			method="updateAppDate">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success">registrationJsp/DateEdit.jsp</result>
+			<result name="input">registrationJsp/DateEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<action name="exitDateEdit" class="com.igr.registration.DateEditAction"
+			method="exitDateEdit">
+			
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<!-- Date Edit End -->
+		<!-- START PARTY ENTRY -->
+		<action name="PartyDetailEntryAction" class="com.igr.registration.PartyDetailEntryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">addPartyDetail</param>
+			</interceptor-ref>
+			
+			 
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/PartyDetailEntry.jsp</result>
+			<result name="input">registrationJsp/PartyDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/PartyDetailEntry.jsp</result>
+		</action>
+
+		<action name="loadValue" class="com.igr.registration.PartyDetailEntryAction"
+			method="loadValue">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			 
+			<result name="success" type="json">
+				<param name="castValue" />
+				<param name="language" />
+			</result>
+		</action>
+
+
+		<action name="addPartyDetail" class="com.igr.registration.PartyDetailEntryAction"
+			method="addPartyDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success">registrationJsp/PartyDetailEntry.jsp</result>
+			<result name="input">registrationJsp/PartyDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitPartyDetail" class="com.igr.registration.PartyDetailEntryAction"
+			method="exitPartyDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END PARTY ENTRY -->
+
+
+		<!-- START PROPERTY DETAIL ENTRY -->
+		<action name="PropertyDetailEntryAction" class="com.igr.registration.PropertyDetailEntryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">addPropertyDetail</param>
+			</interceptor-ref>
+			 
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/PropertyDetailEntry.jsp</result>
+			<result name="input">registrationJsp/PropertyDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/PropertyDetailEntry.jsp</result>
+		</action>
+
+		<action name="globalAjax" class="com.igr.registration.PropertyDetailEntryAction"
+			method="globalAjax">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="area_master_id" />
+			</result>
+		</action>
+		
+		<action name="loadITSVillageEntry" class="com.igr.registration.PropertyDetailEntryAction"
+			method="loadITSVillageEntry">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="its_revenue_district" />
+			</result>
+		</action>
+
+
+
+		<action name="addPropertyDetail" class="com.igr.registration.PropertyDetailEntryAction"
+			method="addPropertyDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			 
+			<result name="success">registrationJsp/PropertyDetailEntry.jsp</result>
+			<result name="input">registrationJsp/PropertyDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitPropertyDetail" class="com.igr.registration.PropertyDetailEntryAction"
+			method="exitPropertyDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END PROPERTY DETAIL ENTRY -->
+
+
+		<!-- START STRUTURE DETAIL ENTRY -->
+		<action name="StructureDetailEntryAction" class="com.igr.registration.StructureDetailEntryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">addDeedDetail</param>
+			</interceptor-ref>
+			
+			 
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/StructureDetailEntry.jsp</result>
+			<result name="input">registrationJsp/StructureDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/StructureDetailEntry.jsp</result>
+		</action>
+
+
+		<action name="structureValuation" class="com.igr.registration.StructureDetailEntryAction"
+			method="structureValuation">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			 
+			<result name="success" type="json">
+				<param name="area_type" />
+				<param name="type_construction" />
+				<param name="use_construction" />
+				<param name="area_volume" />
+			</result>
+		</action>
+
+
+
+		<action name="addStructureDetail" class="com.igr.registration.StructureDetailEntryAction"
+			method="addStructureDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			
+			 
+			<result name="success">registrationJsp/StructureDetailEntry.jsp</result>
+			<result name="input">registrationJsp/StructureDetailEntry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitStructureDetail" class="com.igr.registration.StructureDetailEntryAction"
+			method="exitStructureDetail">
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END STRUTURE DETAIL ENTRY -->
+<!-- START OF JASPER REPORT -->
+		<action name="InitiateReportAction" class="com.igr.report.InitiateReportAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success">report/reportInput.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<action name="exitReport" class="com.igr.report.InitiateReportAction"
+			method="exitReport">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<action name="ReportAction" class="com.igr.report.ReportAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			 
+			<result name="success">report/report.jsp</result>
+		</action>
+		<!-- END OF JASPER REPORT -->
+
+
+
+
+		<!-- START SEARCH SECOND TOKEN FOR TRANSACTION EDIT -->
+		<action name="SearchForTransactionEdit" class="com.igr.commonSearch.SearchForTransactionEdit">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success">commonSearch/SearchForTransactionEdit.jsp
+			</result>
+			<result name="input">commonSearch/SearchForTransactionEdit.jsp
+			</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<action name="exitSecondTokenEdit" class="com.igr.commonSearch.SearchForTransactionEdit"
+			method="exitSecondTokenEdit">
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END SEARCH SECOND TOKEN FOR TRANSACTION EDIT -->
+
+		<!-- START SEARCH TRANSACTION WISE EDIT -->
+		<action name="SearchForTransactionDetailsEdit"
+			class="com.igr.commonSearch.SearchForTransactionDetailsEdit">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success">commonSearch/SearchForTransactionDetailsEdit.jsp
+			</result>
+			<result name="input">commonSearch/SearchForTransactionDetailsEdit.jsp
+			</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<action name="exitEditDetails"
+			class="com.igr.commonSearch.SearchForTransactionDetailsEdit" method="exitEditDetails">
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END SEARCH SECOND TOKEN FOR TRANSACTION EDIT -->
+
+		<!-- START PROPERTY DETAIL EDIT -->
+		<action name="PropertyDetailEditAction" class="com.igr.registration.PropertyDetailEditAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">editPropertyDetail</param>
+			</interceptor-ref>
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/PropertyDetailEdit.jsp</result>
+			<result name="input">registrationJsp/PropertyDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/PropertyDetailEdit.jsp</result>
+		</action>
+
+
+
+
+		<action name="globalAjaxEdit" class="com.igr.registration.PropertyDetailEditAction"
+			method="globalAjaxEdit">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success" type="json">
+				<param name="area_master_id" />
+			</result>
+		</action>
+
+
+
+		<action name="editPropertyDetail" class="com.igr.registration.PropertyDetailEditAction"
+			method="editPropertyDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success">registrationJsp/PropertyDetailEdit.jsp</result>
+			<result name="input">registrationJsp/PropertyDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitPropertyDetailEdit" class="com.igr.registration.PropertyDetailEditAction"
+			method="exitPropertyDetailEdit">
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END PROPERTY DETAIL EDIT -->
+
+
+
+
+
+		<!-- START STRUTURE DETAIL EDIT -->
+		<action name="StructureDetailEditAction" class="com.igr.registration.StructureDetailEditAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">editStructureDetail</param>
+			</interceptor-ref>
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/StructureDetailEdit.jsp</result>
+			<result name="input">registrationJsp/StructureDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/StructureDetailEdit.jsp</result>
+		</action>
+
+
+
+
+		<action name="structureValuationEdit" class="com.igr.registration.StructureDetailEditAction"
+			method="structureValuationEdit">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success" type="json">
+				<param name="area_type" />
+				<param name="type_construction" />
+				<param name="use_construction" />
+				<param name="area_volume" />
+			</result>
+		</action>
+
+
+
+		<action name="editStructureDetail" class="com.igr.registration.StructureDetailEditAction"
+			method="editStructureDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success">registrationJsp/StructureDetailEdit.jsp</result>
+			<result name="input">registrationJsp/StructureDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitStructureDetailEdit" class="com.igr.registration.StructureDetailEditAction"
+			method="exitStructureDetailEdit">
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END STRUTURE DETAIL EDIT -->
+
+
+
+		<!-- START PARTY EDIT -->
+		<action name="PartyDetailEditAction" class="com.igr.registration.PartyDetailEditAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">addPartyDetail</param>
+			</interceptor-ref>
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/PartyDetailEdit.jsp</result>
+			<result name="input">registrationJsp/PartyDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/PartyDetailEdit.jsp</result>
+		</action>
+
+		<action name="loadSubCast" class="com.igr.registration.PartyDetailEditAction"
+			method="loadSubCast">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success" type="json">
+				<param name="caste" />
+				<param name="language" />
+			</result>
+		</action>
+
+		<action name="editPartyDetail" class="com.igr.registration.PartyDetailEditAction"
+			method="editPartyDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success">registrationJsp/PartyDetailEdit.jsp</result>
+			<result name="input">registrationJsp/PartyDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitPartyDetailEdit" class="com.igr.registration.PartyDetailEditAction"
+			method="exitPartyDetailEdit">
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END PARTY EDIT -->
+
+
+		<!-- START DEED EDIT -->
+		<action name="DeedDetailEditAction" class="com.igr.registration.DeedDetailEditAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">editDeedDetail</param>
+			</interceptor-ref>
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/DeedDetailEdit.jsp</result>
+			<result name="input">registrationJsp/DeedDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/DeedDetailEdit.jsp</result>
+		</action>
+
+		<action name="editDeedDetail" class="com.igr.registration.DeedDetailEditAction"
+			method="editDeedDetail">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<result name="success">registrationJsp/DeedDetailEdit.jsp</result>
+			<result name="input">registrationJsp/DeedDetailEdit.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+
+		<action name="exitDeedDetailEdit" class="com.igr.registration.DeedDetailEditAction"
+			method="exitDeedDetailEdit">
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END DEED EDIT -->
+
+<!-- START PROPERTY DETAIL ENQUIRY -->
+		<action name="PropertyDetailEnquiryAction" class="com.igr.enquiry.PropertyDetailEnquiryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<param name="edit">true</param>
+			<result name="success">enquiry/PropertyDetailEnquiry.jsp</result>
+			<result name="input">enquiry/PropertyDetailEnquiry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">enquiry/PropertyDetailEnquiry.jsp</result>
+		</action>
+
+		<action name="loadAreaMaster" class="com.igr.enquiry.PropertyDetailEnquiryAction"
+			method="loadAreaMaster">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!--   -->
+			<result name="success" type="json">
+				<param name="district_id" />
+			</result>
+		</action>
+		<action name="loadDSRLocationForProperty" class="com.igr.enquiry.PropertyDetailEnquiryAction"
+			method="loadDSRLocationForProperty">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="district_id" />
+			</result>
+		</action>
+		<action name="globalAjaxEnquiry" class="com.igr.enquiry.PropertyDetailEnquiryAction"
+			method="globalAjaxEnquiry">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="area_master_id" />
+			</result>
+		</action>
+
+		<action name="exitPropertyDetailEnquiry" class="com.igr.enquiry.PropertyDetailEnquiryAction"
+			method="exitPropertyDetailEnquiry">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END PROPERTY DETAIL ENQUIRY -->
+
+
+		<!-- START STRUTURE DETAIL ENQUIRY -->
+		<action name="StructureDetailEnquiryAction" class="com.igr.enquiry.StructureDetailEnquiryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			
+			<param name="edit">true</param>
+			<result name="success">enquiry/StructureDetailEnquiry.jsp</result>
+			<result name="input">enquiry/StructureDetailEnquiry.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">enquiry/StructureDetailEnquiry.jsp</result>
+		</action>
+		<action name="structureValuationEnquiry" class="com.igr.enquiry.StructureDetailEnquiryAction"
+			method="structureValuationEnquiry">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="area_type" />
+				<param name="type_construction" />
+				<param name="use_construction" />
+				<param name="area_volume" />
+			</result>
+			
+		</action>
+
+		<action name="exitStructureDetailEnquiry" class="com.igr.enquiry.StructureDetailEnquiryAction"
+			method="exitStructureDetailEnquiry">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END STRUTURE DETAIL ENQUIRY -->
+
+<!-- Stamp Valueation Enquiry -->
+		<action name="StampValueEnquiryAction" class="com.igr.enquiry.StampValueEnquiryAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<param name="edit">true</param>
+			<result name="success">enquiry/StampValueEnquiry.jsp</result>
+			<result name="input">enquiry/StampValueEnquiry.jsp</result>
+			<result name="invalid.token">enquiry/StampValueEnquiry.jsp</result>
+		</action>
+		
+		<action name="loadDeedCategory" class="com.igr.enquiry.StampValueEnquiryAction"
+			method="loadDeedCategory">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="deed_type_id" />
+				<param name="language" />
+			</result>
+		</action>
+		
+		<action name="findStampValue" class="com.igr.enquiry.StampValueEnquiryAction"
+			method="findStampValue">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			 
+			<result name="success" type="json">
+				<param name="deed_category_id" />
+				<param name="deed_type_id"/>
+			</result>
+		</action>
+
+<!-- START SEARCH MODULE -->
+		<action name="SearchModule" class="com.igr.search.SearchModule">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<param name="includeMethods">searchModuleData</param>
+			</interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<param name="edit">true</param>
+			<result name="success">searchModuleJsp/SearchModule.jsp
+			</result>
+			<result name="input">searchModuleJsp/SearchModule.jsp
+			</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">searchModuleJsp/SearchModule.jsp
+			</result>
+			<result name="login">loginFormAction</result>
+		</action>
+	<action name="searchModuleData" class="com.igr.search.SearchModule"
+			method="searchModuleData">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result name="success">searchModuleJsp/SearchModule.jsp
+			</result>
+			<result name="input">searchModuleJsp/SearchModule.jsp
+			</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="login">loginFormAction</result>
+		</action>
+
+		<action name="exitModuleData" class="com.igr.search.SearchModule"
+			method="exitModuleData">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		<!-- END SEARCH MODULE -->
+		
+		<!-- Index action -->
+		<!-- <action name="indexAction" class="com.igr.commonUtility.IndexAction" method="execute">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="headerSetter"></interceptor-ref>
+			<result name="success">/commonJsp/index.jsp</result>
+		</action> -->
+		
+		<action name="indexAction">
+		<result>/commonJsp/index.jsp</result>
+		</action>
+		
+		<!-- <action name="noticeAllAction" class="com.igr.commonUtility.IndexAction" method="execute">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="headerSetter"></interceptor-ref>
+			<result name="success">/commonJsp/notice_all.jsp</result>
+		</action> -->
+		
+		<action name="noticeAllAction">
+		<result>/commonJsp/notice_all.jsp</result>
+		</action>
+		
+		<!-- <action name="newsAllAction" class="com.igr.commonUtility.IndexAction" method="execute">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="headerSetter"></interceptor-ref>
+			<result name="success">/commonJsp/news_all.jsp</result>
+		</action> -->
+		
+		<action name="newsAllAction">
+		<result>/commonJsp/news_all.jsp</result>
+		</action>
+		
+		<action name="reckonerSubAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/reckoner_sub.jsp</result>
+		</action>
+		
+		<action name="titleOfLandAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/title_land.jsp</result>
+		</action>
+		
+		<action name="newsDisplayAction" class="com.igr.commonUtility.IndexAction" method="getNewsDetails">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result name="success">/commonJsp/news_display.jsp</result>
+			<result name="error">indexAction</result>
+		</action>
+		
+		<action name="noticeDisplayAction" class="com.igr.commonUtility.IndexAction" method="getNoticeDetails">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result name="success">/commonJsp/notice_display.jsp</result>
+			<result name="error">indexAction</result>
+		</action>
+		
+		<action name="loginFormAction" class="com.igr.commonUtility.LoginAction" method="loginForm">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/login.jsp</result>
+		</action>
+		
+		<action name="signupFormAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/preregistration.jsp</result>
+		</action>
+		
+		
+		<action name="preRegProcessAction" >
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/pre_reg_process.jsp</result>
+		</action>
+		
+		<action name="regProcessAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/process_reg.jsp</result>
+		</action>
+		
+		<action name="inputFormAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/input-form.jsp</result>
+		</action>
+		
+		<action name="deedSampleAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonJsp/deed_sample.jsp</result>
+		</action>
+		
+	<!-- Disputed Land Action -->
+	<action name="DisputedLandAction" class="com.igr.search.DisputedLandSearchAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result>/commonSearch/disputedLandSearch.jsp</result>
+			</action>
+	<action name="findPDFAction" class="com.igr.search.DisputedLandSearchAction"
+			method="findPDF">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result name="success">/commonSearch/disputedLandSearch.jsp</result>
+			<result name="error">/commonSearch/disputedLandSearch.jsp</result>
+			</action>
+			
+			<!-- START FEE ENTRY -->
+		<action name="PaymentAction" class="com.igr.registration.PaymentAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+				<!-- <param name="includeMethods">addFeeEntry</param> -->
+			</interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<param name="edit">true</param>
+			<result name="success">registrationJsp/payment.jsp</result>
+			<result name="input">registrationJsp/payment.jsp</result>
+			<result name="home">commonJsp/blankPage.jsp</result>
+			<result name="invalid.token">registrationJsp/payment.jsp</result>
+			<result name="login">loginFormAction</result>
+		</action>
+		
+		<action name="exitPayment" class="com.igr.registration.PaymentAction"
+			method="exitPayment">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+			<result name="home">commonJsp/blankPage.jsp</result>
+		</action>
+		
+		<action name="paymentFinal" class="com.igr.registration.PaymentAction" method="paymentFinal">
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+			</interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+		<result name="success">registrationJsp/paymentFinal.jsp</result>
+		<result name="home">commonJsp/blankPage.jsp</result>
+		<!-- <result name="login">loginFormAction</result> -->
+		</action>
+		
+		
+		<action name="paymentConfirm" class="com.igr.registration.PaymentAction" method="paymentConfirm">
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+			<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+			</interceptor-ref>
+			<!-- <interceptor-ref name="headerSetter"></interceptor-ref> -->
+		<result name="success">registrationJsp/paymentSubmit.jsp</result>
+		<result name="home">commonJsp/blankPage.jsp</result>
+		<!-- <result name="login">loginFormAction</result> -->
+		</action>
+		
+		
+		<!-- <action name="paymentStatus" class="com.igr.registration.PaymentAction" method="paymentFinalStatus">
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="mystack"></interceptor-ref>
+		<interceptor-ref name="token">
+				<param name="excludeMethods">*</param>
+		</interceptor-ref>	
+		<interceptor-ref name="headerSetter"></interceptor-ref>
+		<result name="success">registrationJsp/paymentFinalStatus.jsp</result>
+		<result name="home">commonJsp/blankPage.jsp</result>
+		<result name="input">registrationJsp/paymentFinalStatus.jsp</result>
+		<result name="login">loginFormAction</result>
+		</action> -->
+		
+		<action name="paymentStatus" class="com.igr.registration.PaymentStatusAction" method="paymentStatus">
+		<interceptor-ref name="defaultStack"></interceptor-ref>	
+		<interceptor-ref name="headerSetter"></interceptor-ref>
+		<result name="success">registrationJsp/paymentFinalStatus.jsp</result>
+		<result name="home" type="redirectAction">loginFormAction</result>
+		</action>
+		
+		<action name="changePass" class="com.igr.commonUtility.LoginAction"
+			method="changePass">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success" type="json">
+				<param name="password" />
+			</result>
+		</action>
+		
+</package>
+
+
+
+</struts>

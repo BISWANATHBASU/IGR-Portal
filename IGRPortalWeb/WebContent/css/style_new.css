@@ -1,0 +1,319 @@
+body{
+	margin:0;
+	padding:0;
+}
+*{
+	margin:0;
+	padding:0;
+}
+#wrapper{
+	width:1024px;
+	margin:auto;
+	border-radius: 10px;
+	/*background-color:#EBD7FF;
+	/*border:1px solid;
+	/*padding:5px;
+	background-color:#fff;*/
+}
+#wrapper #heading{
+	width:100%;
+}
+#wrapper #heading #logo{
+   float:left;
+   text-align:center;
+   min-height:50px;
+   line-height:50px;
+   max-width:514px;
+   border:1px solid;
+}
+#wrapper #heading #searchdiv{
+   float:right;
+   text-align:right;
+   min-height:50px;
+   line-height:50px;
+   max-width:514px;
+   border:1px solid;
+}
+#wrapper #manubutton{
+    background-color: lightblue;/*#226e2f*/
+    clear:both;
+    float:left;
+    margin-top:5px;
+    width:100%;
+    text-align:center;
+    min-height:30px;
+    line-height:30px;
+    border:0px solid;
+}
+#wrapper #manubutton .linkbtn{
+    min-height:30px;
+    float:left;
+    max-width: 173px;
+    min-width: 120px;
+    line-height:30px;
+    margin-left: 5px;
+    color:white;
+    font-size: 11px;
+}
+.backcolore{
+    /*background-color: red;*/
+    background: -webkit-linear-gradient(#ffffff 30%, #99CCFF 100%); /* Safari #4161a2 30%, #99CCFF 100%)*/
+    background: -o-linear-gradient(#ffffff 30%, #99CCFF 100%); /* Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffffff 30%, #99CCFF 100%); /* Firefox 3.6 to 15 */
+    background: linear-gradient(#ffffff 30%, #99CCFF 100%); /* Standard syntax */
+    border-radius: 10px;
+}
+.backcolorehead{
+    /*background-color: red;*/
+    background: -webkit-linear-gradient(#ffffff 30%, #99CCFF 100%); /* Safari #4161a2 30%, #99CCFF 100%)*/
+    background: -o-linear-gradient(#ffffff 30%, #99CCFF 100%); /* Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffffff 30%, #99CCFF 100%); /* Firefox 3.6 to 15 */
+    background: linear-gradient(#ffffff 30%, #99CCFF 100%); /* Standard syntax */
+}
+#wrapper #manubutton .linkbtn:hover{
+    color:white;
+    background: -webkit-radial-gradient(circle, #e3b944, #96f08b); /* Safari */
+    background: -o-radial-gradient(circle, #e3b944, #96f08b); /* Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(circle, #e3b944, #96f08b); /* Firefox 3.6 to 15 */
+    background: radial-gradient(circle, #e3b944, #96f08b); /* Standard syntax */
+}
+#wrapper #manubutton .linkbtn:hover a{
+    color:white;
+}
+#wrapper #manubutton .active{
+    color:white;
+    background: -webkit-radial-gradient(circle, #e3b944, #96f08b); /* Safari */
+    background: -o-radial-gradient(circle, #e3b944, #96f08b); /* Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(circle, #e3b944, #96f08b); /* Firefox 3.6 to 15 */
+    background: radial-gradient(circle, #e3b944, #96f08b); /* Standard syntax */
+}
+#wrapper #manubutton .active a{
+    color:white;
+}
+#wrapper #flashbanner{
+	clear:both;
+	float:left;
+	margin-top:5px;
+	width:100%;
+	max-height:300px;
+	border:0px solid;
+}
+a{
+    text-decoration: none;
+    color:#01addb;
+}
+a:hover{
+    /*color:#04314d;*/
+    color:white;
+}
+#wrapper #maincontent
+{
+width:100%;
+}
+#wrapper #maincontent #aboutUs{
+   float:left;
+margin-top:5px;
+   min-height:250px;
+   width:309px;
+   border:0px solid;
+   margin-left:5px;
+}
+#wrapper #maincontent #flashBanner{
+   float:left;
+margin-top:5px;
+   min-height:250px;
+   width:710px;
+   border:0px solid;
+}
+h3{
+   font-size:14px;
+   padding:2px;
+   line-height: 20px;
+   text-align:center;
+}
+h4{
+   font-size:12px;
+   padding:2px;
+   line-height: 30px;
+   text-align:left;
+}
+.backimg{
+    min-height: 30px;
+    border:0px solid white;
+    background:url(../images/003.png) top left no-repeat,url(../images/004.png) top right no-repeat;
+    overflow: visible;
+}
+.backimg .back{
+    min-height: 30px;
+    margin: 0px 0px 0px 0px;
+    /*margin: 0px 20px 0px 20px;*/
+    border:0px solid white;
+    background-color: #01addb;
+}
+#wrapper #maincontent #leftcont{
+   float:left;
+margin-top:5px;
+   min-height:220px;
+   width:253px;
+   border:0px solid;
+}
+#wrapper #maincontent #leftcont2{
+   float:left;
+   margin-left:5px;
+margin-top:5px;
+   min-height:220px;
+   width:253px;
+   border:0px solid;
+}
+#wrapper #maincontent #medillcont{
+   float:left;
+   margin-left:5px;
+margin-top:5px;
+   min-height:220px;
+   width:253px;
+   border:0px solid;
+}
+#wrapper #maincontent #rightcont{
+   float:right;
+margin-top:5px;
+   min-height:220px;
+   width:250px;
+   border:0px solid;
+}
+#wrapper #maincontent #rightcont .entrytext{
+    text-align: left;
+}
+#wrapper #maincontent #career .entrydiv{
+    clear: both;
+    float: left;
+    min-width: 250px;
+}
+#wrapper #maincontent #career .entrytextdiv{
+    float: left;
+}
+.txtbox{
+    border: solid 1px cornflowerblue;
+    color: blue;
+    width: 235px;
+    font-weight:bold;
+    min-height: 30px;
+    border-radius:5px;
+}p{
+    text-indent: 40px;
+    text-align: justify;
+    line-height: 17px;
+    font-size: 12px;
+    margin: 5px;
+}
+.readmore{
+    bottom: auto;
+    float: right;
+}
+/*********  Extra Styling in web site ************/
+.black_overlay{
+    display: none;
+    /*position: absolute;*/
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index:1001;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+.white_content {
+    display: none;
+    /*position: absolute;*/
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 40%;
+    height: 40%;
+    padding: 16px;
+    border: 10px solid lightblue;
+    border-radius: 10px;
+    background-color: #99CCFF;
+    z-index:1002;
+    overflow: auto;
+}
+.txtbox{
+    border: solid 1px cornflowerblue;
+    color: blue;
+    width: 235px;
+    font-weight:bold;
+    min-height: 30px;
+    border-radius:5px;
+}/* button 
+---------------------------------------------- */
+.button {
+    display: inline-block;
+    zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+    *display: inline;
+    vertical-align: baseline;
+    margin: 0 2px;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    padding: .5em 2em .55em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    -webkit-border-radius: .5em; 
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button:hover {
+    text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+/* white */
+.white {
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+}
+.white:hover {
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dcdcdc));
+	background: -moz-linear-gradient(top,  #fff,  #dcdcdc);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+}
+.captionOrange, .captionBlack{
+    color: #fff;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 4px;
+}
+.captionOrange{
+    background: #EB5100;
+    background-color: rgba(235, 81, 0, 0.6);
+}
+.captionBlack{
+    font-size:16px;
+    background: #000;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+a.captionOrange, A.captionOrange:active, A.captionOrange:visited{
+    color: #ffffff;
+    text-decoration: none;
+}
+a.captionOrange:hover{
+    color: #eb5100;
+    text-decoration: underline;
+    background-color: #eeeeee;
+    background-color: rgba(238, 238, 238, 0.7);
+}
